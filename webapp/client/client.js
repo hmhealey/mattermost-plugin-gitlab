@@ -2,32 +2,32 @@ import request from 'superagent';
 
 export default class Client {
     constructor() {
-        this.url = '/plugins/github/api/v1';
+        this.url = '/plugins/gitlab/api/v1';
     }
 
     getConnected = async (reminder = false) => {
         return this.doGet(`${this.url}/connected?reminder=` + reminder);
     }
 
-    getReviews = async () => {
-        return this.doGet(`${this.url}/reviews`);
-    }
+    // getReviews = async () => {
+    //     return this.doGet(`${this.url}/reviews`);
+    // }
 
-    getYourPrs = async () => {
-        return this.doGet(`${this.url}/yourprs`);
-    }
+    // getYourPrs = async () => {
+    //     return this.doGet(`${this.url}/yourprs`);
+    // }
 
-    getYourAssignments = async () => {
-        return this.doGet(`${this.url}/yourassignments`);
-    }
+    // getYourAssignments = async () => {
+    //     return this.doGet(`${this.url}/yourassignments`);
+    // }
 
-    getMentions = async () => {
-        return this.doGet(`${this.url}/mentions`);
-    }
+    // getMentions = async () => {
+    //     return this.doGet(`${this.url}/mentions`);
+    // }
 
-    getUnreads = async () => {
-        return this.doGet(`${this.url}/unreads`);
-    }
+    // getUnreads = async () => {
+    //     return this.doGet(`${this.url}/unreads`);
+    // }
 
     doGet = async (url, body, headers = {}) => {
         headers['X-Requested-With'] = 'XMLHttpRequest';

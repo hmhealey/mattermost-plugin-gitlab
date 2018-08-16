@@ -1,7 +1,7 @@
 module.exports = {
     entry: './index.js',
     output: {
-        filename: 'dist/github_bundle.js'
+        filename: 'dist/gitlab_bundle.js'
     },
     module: {
         loaders: [

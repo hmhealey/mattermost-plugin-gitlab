@@ -50,37 +50,37 @@ dist: webapp/.npminstall plugin.json
 
 	# Build and copy files from webapp
 	cd webapp && npm run build
-	mkdir -p dist/github/webapp
-	cp webapp/dist/* dist/github/webapp/
+	mkdir -p dist/gitlab/webapp
+	cp webapp/dist/* dist/gitlab/webapp/
 
 	# Build files from server
 	cd server && go get github.com/mitchellh/gox
 	$(shell go env GOPATH)/bin/gox -osarch='darwin/amd64 linux/amd64 windows/amd64' -output 'dist/intermediate/plugin_{{.OS}}_{{.Arch}}' ./server
 
 	# Copy plugin files
-	cp plugin.json dist/github/
+	cp plugin.json dist/gitlab/
 
 	# Copy server executables & compress plugin
-	mkdir -p dist/github/server
-	mv dist/intermediate/plugin_darwin_amd64 dist/github/server/plugin.exe
-	cd dist && tar -zcvf mattermost-github-plugin-darwin-amd64.tar.gz github/*
-	mv dist/intermediate/plugin_linux_amd64 dist/github/server/plugin.exe
-	cd dist && tar -zcvf mattermost-github-plugin-linux-amd64.tar.gz github/*
-	mv dist/intermediate/plugin_windows_amd64.exe dist/github/server/plugin.exe
-	cd dist && tar -zcvf mattermost-github-plugin-windows-amd64.tar.gz github/*
+	mkdir -p dist/gitlab/server
+	cp dist/intermediate/plugin_darwin_amd64 dist/gitlab/server/plugin.exe
+	cd dist && tar -zcvf mattermost-gitlab-plugin-darwin-amd64.tar.gz gitlab/*
+	cp dist/intermediate/plugin_linux_amd64 dist/gitlab/server/plugin.exe
+	cd dist && tar -zcvf mattermost-gitlab-plugin-linux-amd64.tar.gz gitlab/*
+	cp dist/intermediate/plugin_windows_amd64.exe dist/gitlab/server/plugin.exe
+	cd dist && tar -zcvf mattermost-gitlab-plugin-windows-amd64.tar.gz gitlab/*
 
-	# Clean up temp files
-	rm -rf dist/github
+	# # Clean up temp files
+	rm -rf dist/gitlab
 	rm -rf dist/intermediate
 
-	@echo MacOS X plugin built at: dist/mattermost-github-plugin-darwin-amd64.tar.gz
-	@echo Linux plugin built at: dist/mattermost-github-plugin-linux-amd64.tar.gz
-	@echo Windows plugin built at: dist/mattermost-github-plugin-windows-amd64.tar.gz
+	@echo MacOS X plugin built at: dist/mattermost-gitlab-plugin-darwin-amd64.tar.gz
+	@echo Linux plugin built at: dist/mattermost-gitlab-plugin-linux-amd64.tar.gz
+	@echo Windows plugin built at: dist/mattermost-gitlab-plugin-windows-amd64.tar.gz
 
 localdeploy: dist
-	cp dist/mattermost-github-plugin-$(GOOS)-$(GOARCH).tar.gz ../mattermost-server/plugins/
-	rm -rf ../mattermost-server/plugins/github
-	tar -C ../mattermost-server/plugins/ -zxvf ../mattermost-server/plugins/mattermost-github-plugin-$(GOOS)-$(GOARCH).tar.gz
+	cp dist/mattermost-gitlab-plugin-$(GOOS)-$(GOARCH).tar.gz ../mattermost-server/plugins/
+	rm -rf ../mattermost-server/plugins/gitlab
+	tar -C ../mattermost-server/plugins/ -zxvf ../mattermost-server/plugins/mattermost-gitlab-plugin-$(GOOS)-$(GOARCH).tar.gz
 
 run: .npminstall
 	@echo Not yet implemented

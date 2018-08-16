@@ -9,17 +9,17 @@ export default class SidebarButtons extends React.PureComponent {
         connected: PropTypes.bool,
         username: PropTypes.string,
         clientId: PropTypes.string,
-        enterpriseURL: PropTypes.string,
-        reviews: PropTypes.arrayOf(PropTypes.object),
-        unreads: PropTypes.arrayOf(PropTypes.object),
-        yourPrs: PropTypes.arrayOf(PropTypes.object),
-        yourAssignments: PropTypes.arrayOf(PropTypes.object),
-        isTeamSidebar: PropTypes.bool,
+        // enterpriseURL: PropTypes.string,
+        // reviews: PropTypes.arrayOf(PropTypes.object),
+        // unreads: PropTypes.arrayOf(PropTypes.object),
+        // yourPrs: PropTypes.arrayOf(PropTypes.object),
+        // yourAssignments: PropTypes.arrayOf(PropTypes.object),
+        // isTeamSidebar: PropTypes.bool,
         actions: PropTypes.shape({
-            getReviews: PropTypes.func.isRequired,
-            getUnreads: PropTypes.func.isRequired,
-            getYourPrs: PropTypes.func.isRequired,
-            getYourAssignments: PropTypes.func.isRequired,
+            // getReviews: PropTypes.func.isRequired,
+            // getUnreads: PropTypes.func.isRequired,
+            // getYourPrs: PropTypes.func.isRequired,
+            // getYourAssignments: PropTypes.func.isRequired,
         }).isRequired
     };
 
@@ -54,17 +54,17 @@ export default class SidebarButtons extends React.PureComponent {
 
         this.setState({refreshing: true});
         await Promise.all([
-            this.props.actions.getReviews(),
-            this.props.actions.getUnreads(),
-            this.props.actions.getYourPrs(),
-            this.props.actions.getYourAssignments(),
+            // this.props.actions.getReviews(),
+            // this.props.actions.getUnreads(),
+            // this.props.actions.getYourPrs(),
+            // this.props.actions.getYourAssignments(),
         ]);
         this.setState({refreshing: false});
     }
 
     openConnectWindow = (e) => {
         e.preventDefault();
-        window.open('/plugins/github/oauth/connect', 'Connect Mattermost to GitHub', 'height=570,width=520');
+        window.open('/plugins/gitlab/oauth/connect', 'Connect Mattermost to GitLab', 'height=570,width=520');
     }
 
     render() {
@@ -84,16 +84,16 @@ export default class SidebarButtons extends React.PureComponent {
             if (isTeamSidebar) {
                 return (
                     <OverlayTrigger
-                        key='githubConnectLink'
+                        key='gitlabConnectLink'
                         placement={placement}
                         overlay={<Tooltip id="reviewTooltip">Connect to your GitHub</Tooltip>}
                     >
                         <a
-                            href='/plugins/github/oauth/connect'
+                            href='/plugins/gitlab/oauth/connect'
                             onClick={this.openConnectWindow}
                             style={button}
                         >
-                            <i className='fa fa-github fa-2x'/>
+                            <i className='fa fa-gitlab fa-2x'/>
                         </a>
                     </OverlayTrigger>
                 )
@@ -102,28 +102,28 @@ export default class SidebarButtons extends React.PureComponent {
             }
         }
 
-        const reviews = this.props.reviews || [];
-        const yourPrs = this.props.yourPrs || [];
-        const unreads = this.props.unreads || [];
-        const yourAssignments = this.props.yourAssignments || [];
+        // const reviews = this.props.reviews || [];
+        // const yourPrs = this.props.yourPrs || [];
+        // const unreads = this.props.unreads || [];
+        // const yourAssignments = this.props.yourAssignments || [];
         const refreshClass = this.state.refreshing ? ' fa-spin' : '';
 
-        let baseURL = 'https://github.com';
-        if (this.props.enterpriseURL) {
-            baseURL = enterpriseURL;
-        }
+        let baseURL = 'https://gitlab.com';
+        // if (this.props.enterpriseURL) {
+        //     baseURL = enterpriseURL;
+        // }
 
         return (
             <div style={container}>
                 <a
-                    key='githubHeader'
-                    href={baseURL + '/settings/connections/applications/' + this.props.clientId}
+                    key='gitlabHeader'
+                    href={baseURL/* + '/settings/connections/applications/' + this.props.clientId*/}
                     target='_blank'
                     style={button}
                 >
-                    <i className='fa fa-github fa-lg'/>
+                    <i className='fa fa-gitlab fa-lg'/>
                 </a>
-                <OverlayTrigger
+                {/*<OverlayTrigger
                     key='githubYourPrsLink'
                     placement={placement}
                     overlay={<Tooltip id="yourPrsTooltip">Your open pull requests</Tooltip>}
@@ -178,9 +178,9 @@ export default class SidebarButtons extends React.PureComponent {
                         <i className='fa fa-envelope'/>
                         {' ' + unreads.length}
                     </a>
-                </OverlayTrigger>
+                </OverlayTrigger>*/}
                 <OverlayTrigger
-                    key='githubRefreshButton'
+                    key='gitlabRefreshButton'
                     placement={placement}
                     overlay={<Tooltip id="refreshTooltip">Refresh</Tooltip>}
                 >

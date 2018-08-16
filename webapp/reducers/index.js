@@ -15,7 +15,7 @@ function connected(state = false, action) {
 function username(state = '', action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
-        return action.data.github_username;
+        return action.data.gitlab_username;
     default:
         return state;
     }
@@ -33,7 +33,7 @@ function settings(state = {sidebar_buttons: Constants.SETTING_BUTTONS_TEAM, dail
 function clientId(state = '', action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
-        return action.data.github_client_id;
+        return action.data.gitlab_client_id;
     default:
         return state;
     }

@@ -10,7 +10,7 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:cb22af0ed7c72d495d8be1106233ee553898950f15fd3f5404406d44c2e86888"
+  digest = "1:17fe264ee908afc795734e8c4e63db2accabaf57326dbf21763a7d6b86096260"
   name = "github.com/golang/protobuf"
   packages = [
     "proto",
@@ -22,13 +22,6 @@
   pruneopts = "UT"
   revision = "b4deda0973fb4c70b50d226b1af49f3da59f5265"
   version = "v1.1.0"
-
-[[projects]]
-  digest = "1:24d5111a5293827759e572a949a51c4a8a6225c4f54a28a80f1beefb5be709ca"
-  name = "github.com/google/go-github"
-  packages = ["github"]
-  pruneopts = "UT"
-  revision = "fe267204ab6dc819efe645730b03eb44cbca91f1"
 
 [[projects]]
   branch = "master"
@@ -70,7 +63,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:bc8531faf511c871496ee97088a71347faa028e210a1f6aee5a8b038ef783da2"
+  digest = "1:3e3fc25f36840246e8e8133c6fa7b995cf68f4bdf097f2065237445c84297c9e"
   name = "github.com/mattermost/mattermost-server"
   packages = [
     "mlog",
@@ -91,7 +84,7 @@
   revision = "a61a99592b77c9ba629d254a693acffaeb4b7e28"
 
 [[projects]]
-  digest = "1:f5504160e7da9c3fce16f395feaafa0233c6c739a94f6794d462d28372bd9857"
+  digest = "1:07140002dbf37da92090f731b46fa47be4820b82fe5c14a035203b0e813d0ec2"
   name = "github.com/nicksnyder/go-i18n"
   packages = [
     "i18n",
@@ -152,6 +145,14 @@
   version = "v1.2.2"
 
 [[projects]]
+  digest = "1:f0a751f9c93fde1a5810ad158a07d6fa1b4ee8a8f2f632488b0277a6e815befc"
+  name = "github.com/xanzy/go-gitlab"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "4f616cbce6a5f335461881701f772d8b8e16c2f6"
+  version = "v0.10.8"
+
+[[projects]]
   digest = "1:3c1a69cdae3501bf75e76d0d86dc6f2b0a7421bc205c0cb7b96b19eed464a34d"
   name = "go.uber.org/atomic"
   packages = ["."]
@@ -168,7 +169,7 @@
   version = "v1.1.0"
 
 [[projects]]
-  digest = "1:e6d865f90ef1178c14bdb49ea9f244bfcb28c06ea9773dc077492032632de0b8"
+  digest = "1:9580b1b079114140ade8cec957685344d14f00119e0241f6b369633cb346eeb3"
   name = "go.uber.org/zap"
   packages = [
     ".",
@@ -184,7 +185,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:866e7e1c540791df6b277bbfc496e27fa6c8c55e60b159c8b9787b3487af98b2"
+  digest = "1:1ecf2a49df33be51e757d0033d5d51d5f784f35f68e5a38f797b2d3f03357d71"
   name = "golang.org/x/crypto"
   packages = [
     "bcrypt",
@@ -195,7 +196,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:132159c9c49412bb9747732774f25f032fd6e5face16c82fd82ba34242a71686"
+  digest = "1:9d3be524f32f54d9b279d9bf274885a7cf33051470d15a0a948708a7375ab8f2"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -212,7 +213,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:88f59611964f1c8800edc47686863dcef65dfec0605a1f69881c759f1d6e1a06"
+  digest = "1:af19f6e6c369bf51ef226e989034cd88a45083173c02ac4d7ab74c9a90d356b7"
   name = "golang.org/x/oauth2"
   packages = [
     ".",
@@ -222,7 +223,7 @@
   revision = "ef147856a6ddbb60760db74283d2424e98c87bff"
 
 [[projects]]
-  digest = "1:7509ba4347d1f8de6ae9be8818b0cd1abc3deeffe28aeaf4be6d4b6b5178d9ca"
+  digest = "1:a2ab62866c75542dd18d2b069fec854577a20211d7c0ea6ae746072a1dccdd18"
   name = "golang.org/x/text"
   packages = [
     "collate",
@@ -245,7 +246,7 @@
   version = "v0.3.0"
 
 [[projects]]
-  digest = "1:1df608126759f99976e509eef1645a75a3bb5472d2fc57cf0664444d13915a23"
+  digest = "1:328b5e4f197d928c444a51a75385f4b978915c0e75521f0ad6a3db976c97a7d3"
   name = "google.golang.org/appengine"
   packages = [
     "internal",
@@ -269,7 +270,7 @@
   revision = "fedd2861243fd1a8152376292b921b394c7bef7e"
 
 [[projects]]
-  digest = "1:ede96364816c35ed440d60876e86c3ecf8720ce77f232e7304dcf2a59e7c3905"
+  digest = "1:1a9c0243b6fc4ccd431b2ac2eb964b453db89e0465bab46a718695f8a7f25bfb"
   name = "google.golang.org/grpc"
   packages = [
     ".",
@@ -324,11 +325,11 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/google/go-github/github",
     "github.com/mattermost/mattermost-server/mlog",
     "github.com/mattermost/mattermost-server/model",
     "github.com/mattermost/mattermost-server/plugin",
     "github.com/stretchr/testify/assert",
+    "github.com/xanzy/go-gitlab",
     "golang.org/x/oauth2",
   ]
   solver-name = "gps-cdcl"

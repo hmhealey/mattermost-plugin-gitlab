@@ -33,22 +33,21 @@ export function handleReconnect(store, reminder = false) {
     return async () => {
         const {data} = await getConnected(reminder)(store.dispatch, store.getState);
         if (data && data.connected) {
-            getReviews()(store.dispatch, store.getState);
-            getUnreads()(store.dispatch, store.getState);
-            getYourPrs()(store.dispatch, store.getState);
-            getYourAssignments()(store.dispatch, store.getState);
+            // getReviews()(store.dispatch, store.getState);
+            // getUnreads()(store.dispatch, store.getState);
+            // getYourPrs()(store.dispatch, store.getState);
+            // getYourAssignments()(store.dispatch, store.getState);
         }
     }
 }
 
 export function handleRefresh(store) {
     return () => {
-        console.log('refresh');
-        if (store.getState()['plugins-github'].connected) {
-            getReviews()(store.dispatch, store.getState);
-            getUnreads()(store.dispatch, store.getState);
-            getYourPrs()(store.dispatch, store.getState);
-            getYourAssignments()(store.dispatch, store.getState);
+        if (store.getState()['plugins-gitlab'].connected) {
+            // getReviews()(store.dispatch, store.getState);
+            // getUnreads()(store.dispatch, store.getState);
+            // getYourPrs()(store.dispatch, store.getState);
+            // getYourAssignments()(store.dispatch, store.getState);
         }
     }
 }

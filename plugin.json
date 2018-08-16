@@ -1,40 +1,40 @@
 {
-    "id": "github",
-    "name": "GitHub",
-    "description": "GitHub plugin for Mattermost.",
-    "version": "0.5.0",
+    "id": "gitlab",
+    "name": "GitLab",
+    "description": "GitLab plugin for Mattermost.",
+    "version": "0.1.0",
     "backend": {
         "executable": "server/plugin.exe"
     },
     "webapp": {
-        "bundle_path": "webapp/github_bundle.js"
+        "bundle_path": "webapp/gitlab_bundle.js"
     },
     "settings_schema": {
-        "header": "To set up the GitHub plugin, you need to register a GitHub OAuth app here https://github.com/settings/applications/new.",
+        "header": "To set up the GitLab plugin, you need to register a GitLab OAuth app on https://gitlab.com/profile/applications or on <your-gitlab-instance>/profile/applications.",
         "settings": [
             {
-                "key": "GitHubOAuthClientID",
-                "display_name": "GitHub OAuth Client ID",
+                "key": "GitLabOAuthClientID",
+                "display_name": "GitLab OAuth Client ID",
                 "type": "text",
-                "help_text": "The client ID for the OAuth app registered with GitHub."
+                "help_text": "The client ID for the OAuth app registered with GitLab."
             },
             {
-                "key": "GitHubOAuthClientSecret",
-                "display_name": "GitHub OAuth Client Secret",
+                "key": "GitLabOAuthClientSecret",
+                "display_name": "GitLab OAuth Client Secret",
                 "type": "text",
-                "help_text": "The client secret for the OAuth app registered with GitHub."
+                "help_text": "The client secret for the OAuth app registered with GitLab."
             },
             {
                 "key": "WebhookSecret",
                 "display_name": "Webhook Secret",
                 "type": "generated",
-                "help_text": "The webhook secret set in GitHub."
+                "help_text": "The webhook secret set in GitLab."
             },
             {
                 "key": "Username",
                 "display_name": "User",
                 "type": "username",
-                "help_test": "Select the username of the user that the plugin will post with. This can be any user, the name and icon will be overridden when posting."
+                "help_test": "Select the username of the Mattermost user that the plugin will post with. This can be any user, the name and icon will be overridden when posting."
             },
             {
                 "key": "EncryptionKey",
@@ -43,22 +43,22 @@
                 "help_text": "The AES encryption key used to encrypt stored access tokens."
             },
             {
-                "key": "GithubOrg",
-                "display_name": "GitHub Organization",
+                "key": "GitLabOrg",
+                "display_name": "GitLab Organization",
                 "type": "text",
-                "help_text": "(Optional) Set to lock the plugin to a single GitHub organization."
+                "help_text": "(Optional) Set to lock the plugin to a single GitLab organization. TODO: Is this setting needed?"
             },
             {
                 "key": "EnterpriseBaseURL",
                 "display_name": "Enterprise Base URL",
                 "type": "text",
-                "help_text": "(Optional) The base URL for using the plugin with a GitHub Enterprise installation."
+                "help_text": "(Optional) The base URL for using the plugin with a GitLab Enterprise installation. TODO: Is this setting needed?"
             },
             {
                 "key": "EnterpriseUploadURL",
                 "display_name": "Enterprise Upload URL",
                 "type": "text",
-                "help_text": "(Optional) The upload URL for using the plugin with a GitHub Enterprise installation."
+                "help_text": "(Optional) The upload URL for using the plugin with a GitLab Enterprise installation. TODO: Is this setting needed?"
             }
         ],
         "footer": ""
