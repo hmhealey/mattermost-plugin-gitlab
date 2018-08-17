@@ -3,6 +3,15 @@ import {combineReducers} from 'redux';
 import ActionTypes from '../action_types';
 import Constants from '../constants';
 
+function gitlabURL(state = '', action) {
+    switch(action.type) {
+    case ActionTypes.RECEIVED_CONNECTED:
+        return action.data.gitlab_url;
+    default:
+        return state;
+    }
+}
+
 function connected(state = false, action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
@@ -85,6 +94,7 @@ function unreads(state = [], action) {
 }
 
 export default combineReducers({
+    gitlabURL,
     connected,
     username,
     settings,

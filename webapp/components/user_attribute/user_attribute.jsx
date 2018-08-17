@@ -7,6 +7,7 @@ import {makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 export default class UserAttribute extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
+        gitlabURL: PropTypes.string.isRequired,
         username: PropTypes.string,
     };
 
@@ -22,10 +23,10 @@ export default class UserAttribute extends React.PureComponent {
         return (
             <div style={style.container}>
             <a
-                href={'https://github.com/' + username}
+                href={this.props.gitlabURL + '/' + username}
                 target='_blank'
             >
-                <i className='fa fa-github'/>{' ' + username}
+                <i className='fa fa-gitlab'/>{' ' + username}
             </a>
             </div>
         );

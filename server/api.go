@@ -198,9 +198,9 @@ func (p *Plugin) completeConnectUserToGitLab(w http.ResponseWriter, r *http.Requ
 
 type ConnectedResponse struct {
 	Connected         bool          `json:"connected"`
+	GitLabURL         string        `json:"gitlab_url"`
 	GitLabUsername    string        `json:"gitlab_username"`
 	GitLabClientID    string        `json:"gitlab_client_id"`
-	// EnterpriseBaseURL string        `json:"enterprise_base_url,omitempty"`
 	Settings          *UserSettings `json:"settings"`
 }
 
@@ -211,7 +211,7 @@ func (p *Plugin) getConnected(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := &ConnectedResponse{Connected: false/*, EnterpriseBaseURL: p.EnterpriseBaseURL*/}
+	resp := &ConnectedResponse{Connected: false, GitLabURL: p.GitLabURL}
 
 	info, _ := p.getGitLabUserInfo(userID)
 	if info != nil && info.Token != nil {

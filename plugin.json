@@ -2,7 +2,7 @@
     "id": "gitlab",
     "name": "GitLab",
     "description": "GitLab plugin for Mattermost.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "backend": {
         "executable": "server/plugin.exe"
     },
@@ -12,6 +12,13 @@
     "settings_schema": {
         "header": "To set up the GitLab plugin, you need to register a GitLab OAuth app on https://gitlab.com/profile/applications or on <your-gitlab-instance>/profile/applications.",
         "settings": [
+            {
+                "key": "GitLabURL",
+                "display_name": "GitLab URL",
+                "type": "text",
+                "help_text": "The URL for your GitLab instance. Defaults to https://gitlab.com.",
+                "default": "https://gitlab.com"
+            },
             {
                 "key": "GitLabOAuthClientID",
                 "display_name": "GitLab OAuth Client ID",
@@ -47,18 +54,6 @@
                 "display_name": "GitLab Organization",
                 "type": "text",
                 "help_text": "(Optional) Set to lock the plugin to a single GitLab organization. TODO: Is this setting needed?"
-            },
-            {
-                "key": "EnterpriseBaseURL",
-                "display_name": "Enterprise Base URL",
-                "type": "text",
-                "help_text": "(Optional) The base URL for using the plugin with a GitLab Enterprise installation. TODO: Is this setting needed?"
-            },
-            {
-                "key": "EnterpriseUploadURL",
-                "display_name": "Enterprise Upload URL",
-                "type": "text",
-                "help_text": "(Optional) The upload URL for using the plugin with a GitLab Enterprise installation. TODO: Is this setting needed?"
             }
         ],
         "footer": ""

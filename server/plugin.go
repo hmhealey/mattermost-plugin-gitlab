@@ -38,14 +38,14 @@ type Plugin struct {
 
 	BotUserID string
 
-	// GitLabOrg               string
-	Username                string
+	GitLabURL string
 	GitLabOAuthClientID     string
 	GitLabOAuthClientSecret string
+
+	// GitLabOrg               string
+	Username                string
 	// WebhookSecret           string
 	EncryptionKey string
-	// EnterpriseBaseURL       string
-	// EnterpriseUploadURL     string
 }
 
 func (p *Plugin) gitlabConnect(token oauth2.Token) *gitlab.Client {
@@ -60,18 +60,23 @@ func (p *Plugin) OnActivate() error {
 	if err := p.IsValid(); err != nil {
 		return err
 	}
+
 	// p.API.RegisterCommand(getCommand())
-	user, err := p.API.GetUserByUsername(p.Username)
-	if err != nil {
-		mlog.Error(err.Error())
+
+	if user, err := p.API.GetUserByUsername(p.Username); err != nil {
 		return fmt.Errorf("Unable to find user with configured username: %v", p.Username)
+	} else {
+		p.BotUserID = user.Id
 	}
 
-	p.BotUserID = user.Id
 	return nil
 }
 
 func (p *Plugin) IsValid() error {
+	if p.GitLabURL == "" {
+		return fmt.Errorf("Must have a GitLab URL specified")
+	}
+
 	if p.GitLabOAuthClientID == "" {
 		return fmt.Errorf("Must have a GitLab oauth client id")
 	}
@@ -98,19 +103,14 @@ func (p *Plugin) IsValid() error {
 }
 
 func (p *Plugin) getOAuthConfig() *oauth2.Config {
-	baseURL := "https://gitlab.com/"
-	// if len(p.EnterpriseBaseURL) > 0 {
-	// 	baseURL = p.EnterpriseBaseURL
-	// }
-
 	return &oauth2.Config{
 		ClientID:     p.GitLabOAuthClientID,
 		ClientSecret: p.GitLabOAuthClientSecret,
 		Scopes:       []string{"api"}, // TODO restrict the scope
 		RedirectURL:  fmt.Sprintf("%s/plugins/gitlab/oauth/complete", *p.API.GetConfig().ServiceSettings.SiteURL),
 		Endpoint: oauth2.Endpoint{
-			AuthURL:  baseURL + "oauth/authorize",
-			TokenURL: baseURL + "oauth/token",
+			AuthURL:  fmt.Sprintf("%s/oauth/authorize", p.GitLabURL),
+			TokenURL: fmt.Sprintf("%s/oauth/token", p.GitLabURL),
 		},
 	}
 }

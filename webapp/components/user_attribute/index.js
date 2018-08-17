@@ -10,11 +10,12 @@ function mapStateToProps(state, ownProps) {
 
     let username;
     if (user && user.props) {
-        username = user.props.git_user;
+        username = user.props.gitlab_user;
     }
 
     return {
         username,
+        gitlabURL: state['plugins-gitlab'].gitlabURL,
     };
 }
 

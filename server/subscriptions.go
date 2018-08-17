@@ -47,7 +47,7 @@ package main
 // }
 
 // func (p *Plugin) Subscribe(ctx context.Context, githubClient *github.Client, userId, ownerAndRepo, channelID, features string) error {
-// 	_, owner, repo := parseOwnerAndRepo(ownerAndRepo, p.EnterpriseBaseURL)
+// 	_, owner, repo := parseOwnerAndRepo(ownerAndRepo, p.GitLabURL)
 
 // 	if owner == "" {
 // 		return fmt.Errorf("Invalid repository")
@@ -145,7 +145,7 @@ package main
 // }
 
 // func (p *Plugin) Unsubscribe(channelID string, repo string) error {
-// 	repo, _, _ = parseOwnerAndRepo(repo, p.EnterpriseBaseURL)
+// 	repo, _, _ = parseOwnerAndRepo(repo, p.GitLabURL)
 
 // 	if repo == "" {
 // 		return fmt.Errorf("Invalid repository")

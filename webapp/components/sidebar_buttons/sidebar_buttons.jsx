@@ -6,15 +6,14 @@ import {makeStyleFromTheme, changeOpacity} from 'mattermost-redux/utils/theme_ut
 export default class SidebarButtons extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
+        gitlabURL: PropTypes.string.isRequired,
         connected: PropTypes.bool,
         username: PropTypes.string,
-        clientId: PropTypes.string,
-        // enterpriseURL: PropTypes.string,
         // reviews: PropTypes.arrayOf(PropTypes.object),
         // unreads: PropTypes.arrayOf(PropTypes.object),
         // yourPrs: PropTypes.arrayOf(PropTypes.object),
         // yourAssignments: PropTypes.arrayOf(PropTypes.object),
-        // isTeamSidebar: PropTypes.bool,
+        isTeamSidebar: PropTypes.bool,
         actions: PropTypes.shape({
             // getReviews: PropTypes.func.isRequired,
             // getUnreads: PropTypes.func.isRequired,
@@ -86,7 +85,7 @@ export default class SidebarButtons extends React.PureComponent {
                     <OverlayTrigger
                         key='gitlabConnectLink'
                         placement={placement}
-                        overlay={<Tooltip id="reviewTooltip">Connect to your GitHub</Tooltip>}
+                        overlay={<Tooltip id="reviewTooltip">Connect to your GitLab</Tooltip>}
                     >
                         <a
                             href='/plugins/gitlab/oauth/connect'
@@ -108,16 +107,11 @@ export default class SidebarButtons extends React.PureComponent {
         // const yourAssignments = this.props.yourAssignments || [];
         const refreshClass = this.state.refreshing ? ' fa-spin' : '';
 
-        let baseURL = 'https://gitlab.com';
-        // if (this.props.enterpriseURL) {
-        //     baseURL = enterpriseURL;
-        // }
-
         return (
             <div style={container}>
                 <a
                     key='gitlabHeader'
-                    href={baseURL/* + '/settings/connections/applications/' + this.props.clientId*/}
+                    href={this.props.gitlabURL + '/profile/applications'}
                     target='_blank'
                     style={button}
                 >
@@ -129,7 +123,7 @@ export default class SidebarButtons extends React.PureComponent {
                     overlay={<Tooltip id="yourPrsTooltip">Your open pull requests</Tooltip>}
                 >
                     <a
-                        href={baseURL + '/pulls'}
+                        href={this.props.gitlabURL + '/pulls'}
                         target='_blank'
                         style={button}
                     >
@@ -143,7 +137,7 @@ export default class SidebarButtons extends React.PureComponent {
                     overlay={<Tooltip id="reviewTooltip">Pull requests needing review</Tooltip>}
                 >
                     <a
-                        href={baseURL + '/pulls/review-requested'}
+                        href={this.props.gitlabURL + '/pulls/review-requested'}
                         target='_blank'
                         style={button}
                     >
@@ -157,7 +151,7 @@ export default class SidebarButtons extends React.PureComponent {
                     overlay={<Tooltip id="reviewTooltip">Your assignments</Tooltip>}
                 >
                     <a
-                        href={baseURL + '/pulls?q=is%3Aopen+archived%3Afalse+assignee%3A'+ this.props.username}
+                        href={this.props.gitlabURL + '/pulls?q=is%3Aopen+archived%3Afalse+assignee%3A'+ this.props.username}
                         target='_blank'
                         style={button}
                     >
@@ -171,7 +165,7 @@ export default class SidebarButtons extends React.PureComponent {
                     overlay={<Tooltip id="unreadsTooltip">Unread messages</Tooltip>}
                 >
                     <a
-                        href={baseURL + '/pulls?q=is%3Aopen+mentions%3A' + this.props.username + '+archived%3Afalse'}
+                        href={this.props.gitlabURL + '/pulls?q=is%3Aopen+mentions%3A' + this.props.username + '+archived%3Afalse'}
                         target='_blank'
                         style={button}
                     >

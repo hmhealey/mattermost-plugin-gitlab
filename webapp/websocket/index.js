@@ -4,25 +4,31 @@ import {getConnected, getReviews, getUnreads, getYourPrs} from '../actions';
 
 export function handleConnect(store) {
     return (msg) => {
+        console.log('connected to gitlab');
         if (!msg.data) {
             return;
         }
 
         store.dispatch({
             type: ActionTypes.RECEIVED_CONNECTED,
-            data: {...msg.data, settings: {sidebar_buttons: Constants.SETTING_BUTTONS_TEAM, daily_reminder: true}},
+            data: {
+                ...msg.data,
+                settings: {sidebar_buttons: Constants.SETTING_BUTTONS_TEAM, daily_reminder: true}
+            },
         });
     }
 }
 
 export function handleDisconnect(store) {
     return () => {
+        console.log('disconnected from gitlab');
         store.dispatch({
             type: ActionTypes.RECEIVED_CONNECTED,
             data: {
                 connected: false,
-                github_username: '',
-                github_client_id: '',
+                gitlab_url: '',
+                gitlab_username: '',
+                gitlab_client_id: '',
                 settings: {},
             }
         });
@@ -31,23 +37,26 @@ export function handleDisconnect(store) {
 
 export function handleReconnect(store, reminder = false) {
     return async () => {
-        const {data} = await getConnected(reminder)(store.dispatch, store.getState);
+        console.log('reconnected to gitlab');
+        const {data} = await store.dispatch(getConnected(reminder));
+
         if (data && data.connected) {
-            // getReviews()(store.dispatch, store.getState);
-            // getUnreads()(store.dispatch, store.getState);
-            // getYourPrs()(store.dispatch, store.getState);
-            // getYourAssignments()(store.dispatch, store.getState);
+            // store.dispatch(getReviews());
+            // store.dispatch(getUnreads());
+            // store.dispatch(getYourPrs());
+            // store.dispatch(getYourAssignments());
         }
     }
 }
 
 export function handleRefresh(store) {
     return () => {
+        console.log('refreshing from gitlab');
         if (store.getState()['plugins-gitlab'].connected) {
-            // getReviews()(store.dispatch, store.getState);
-            // getUnreads()(store.dispatch, store.getState);
-            // getYourPrs()(store.dispatch, store.getState);
-            // getYourAssignments()(store.dispatch, store.getState);
+            // store.dispatch(getReviews());
+            // store.dispatch(getUnreads());
+            // store.dispatch(getYourPrs());
+            // store.dispatch(getYourAssignments());
         }
     }
 }
