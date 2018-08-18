@@ -1,7 +1,12 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {getReviews, getUnreads, getYourPrs, getYourAssignments} from '../../actions';
+import {
+    getAssignedIssues,
+    getAssignedMergeRequests,
+    getCreatedMergeRequests,
+    getUnreads,
+} from '../../actions';
 
 import SidebarButtons from './sidebar_buttons.jsx';
 
@@ -9,10 +14,10 @@ function mapStateToProps(state, ownProps) {
     return {
         connected: state['plugins-gitlab'].connected,
         gitlabURL: state['plugins-gitlab'].gitlabURL,
-        username: state['plugins-gitlab'].username,
-        // reviews: state['plugins-gitlab'].reviews,
-        // yourPrs: state['plugins-gitlab'].yourPrs,
-        // yourAssignments: state['plugins-gitlab'].yourAssignments,
+        gitlabUsername: state['plugins-gitlab'].username,
+        assignedIssues: state['plugins-gitlab'].assignedIssues,
+        assignedMergeRequests: state['plugins-gitlab'].assignedMergeRequests,
+        createdMergeRequests: state['plugins-gitlab'].createdMergeRequests,
         // unreads: state['plugins-gitlab'].unreads,
     };
 }
@@ -20,10 +25,10 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
-            // getReviews,
+            getAssignedIssues,
+            getAssignedMergeRequests,
+            getCreatedMergeRequests,
             // getUnreads,
-            // getYourPrs,
-            // getYourAssignments,
         }, dispatch)
     };
 }

@@ -30,6 +30,13 @@ type APIErrorResponse struct {
 	StatusCode int    `json:"status_code"`
 }
 
+func writeError(w http.ResponseWriter, err error) {
+	writeAPIError(w, &APIErrorResponse{
+		Message:    err.Error(),
+		StatusCode: http.StatusInternalServerError,
+	})
+}
+
 func writeAPIError(w http.ResponseWriter, err *APIErrorResponse) {
 	b, _ := json.Marshal(err)
 	w.WriteHeader(err.StatusCode)
@@ -56,10 +63,12 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 	// 	p.postToDo(w, r)
 	// case "/api/v1/reviews":
 	// 	p.getReviews(w, r)
-	// case "/api/v1/yourprs":
-	// 	p.getYourPrs(w, r)
-	// case "/api/v1/yourassignments":
-	// 	p.getYourAssignments(w, r)
+	case "/api/v1/merge_requests/created":
+		p.getYourMergeRequests(w, r)
+	case "/api/v1/merge_requests/assigned":
+		p.getAssignedMergeRequests(w, r)
+	case "/api/v1/issues/assigned":
+		p.getAssignedIssues(w, r)
 	// case "/api/v1/mentions":
 	// 	p.getMentions(w, r)
 	// case "/api/v1/unreads":
@@ -312,92 +321,72 @@ func (p *Plugin) getConnected(w http.ResponseWriter, r *http.Request) {
 // 	w.Write(resp)
 // }
 
-// func (p *Plugin) getReviews(w http.ResponseWriter, r *http.Request) {
-// 	userID := r.Header.Get("Mattermost-User-ID")
-// 	if userID == "" {
-// 		http.Error(w, "Not authorized", http.StatusUnauthorized)
-// 		return
-// 	}
+func (p *Plugin) getFromGitLab(
+	w http.ResponseWriter,
+	r *http.Request,
+	doGetFromGitLab func(*gitlab.Client) (interface{}, error),
+) {
+	// Get current user ID from header
+	userID := r.Header.Get("Mattermost-User-ID")
+	if userID == "" {
+		http.Error(w, "Not authorized", http.StatusUnauthorized)
+		return
+	}
 
-// 	ctx := context.Background()
+	// Get a GitLab client
+	var gitlabClient *gitlab.Client
+	if info, err := p.getGitLabUserInfo(userID); err != nil {
+		writeAPIError(w, err)
+		return
+	} else {
+		gitlabClient = p.gitlabConnect(*info.Token)
+	}
 
-// 	var githubClient *github.Client
-// 	username := ""
+	results, err := doGetFromGitLab(gitlabClient)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	if info, err := p.getGitLabUserInfo(userID); err != nil {
-// 		writeAPIError(w, err)
-// 		return
-// 	} else {
-// 		githubClient = p.githubConnect(*info.Token)
-// 		username = info.GitLabUsername
-// 	}
+	resp, _ := json.Marshal(results)
+	w.Write(resp)
+}
 
-// 	result, _, err := githubClient.Search.Issues(ctx, getReviewSearchQuery(username, p.GitLabOrg), &github.SearchOptions{})
-// 	if err != nil {
-// 		mlog.Error(err.Error())
-// 	}
+func (p *Plugin) getYourMergeRequests(w http.ResponseWriter, r *http.Request) {
+	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
+		options := &gitlab.ListMergeRequestsOptions{
+			State: stringToPointer("open"),
+			Scope: stringToPointer("created_by_me"),
+		}
 
-// 	resp, _ := json.Marshal(result.Issues)
-// 	w.Write(resp)
-// }
+		results, _, err := gitlabClient.MergeRequests.ListMergeRequests(options, gitlab.WithContext(r.Context()))
+		return results, err
+	})
+}
 
-// func (p *Plugin) getYourPrs(w http.ResponseWriter, r *http.Request) {
-// 	userID := r.Header.Get("Mattermost-User-ID")
-// 	if userID == "" {
-// 		http.Error(w, "Not authorized", http.StatusUnauthorized)
-// 		return
-// 	}
+func (p *Plugin) getAssignedMergeRequests(w http.ResponseWriter, r *http.Request) {
+	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
+		options := &gitlab.ListMergeRequestsOptions{
+			State: stringToPointer("open"),
+			Scope: stringToPointer("assigned_to_me"),
+		}
 
-// 	ctx := context.Background()
+		results, _, err := gitlabClient.MergeRequests.ListMergeRequests(options, gitlab.WithContext(r.Context()))
+		return results, err
+	})
+}
 
-// 	var githubClient *github.Client
-// 	username := ""
+func (p *Plugin) getAssignedIssues(w http.ResponseWriter, r *http.Request) {
+	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
+		options := &gitlab.ListIssuesOptions{
+			State: stringToPointer("open"),
+			Scope: stringToPointer("assigned_to_me"),
+		}
 
-// 	if info, err := p.getGitLabUserInfo(userID); err != nil {
-// 		writeAPIError(w, err)
-// 		return
-// 	} else {
-// 		githubClient = p.githubConnect(*info.Token)
-// 		username = info.GitLabUsername
-// 	}
-
-// 	result, _, err := githubClient.Search.Issues(ctx, getYourPrsSearchQuery(username, p.GitLabOrg), &github.SearchOptions{})
-// 	if err != nil {
-// 		mlog.Error(err.Error())
-// 	}
-
-// 	resp, _ := json.Marshal(result.Issues)
-// 	w.Write(resp)
-// }
-
-// func (p *Plugin) getYourAssignments(w http.ResponseWriter, r *http.Request) {
-// 	userID := r.Header.Get("Mattermost-User-ID")
-// 	if userID == "" {
-// 		http.Error(w, "Not authorized", http.StatusUnauthorized)
-// 		return
-// 	}
-
-// 	ctx := context.Background()
-
-// 	var githubClient *github.Client
-// 	username := ""
-
-// 	if info, err := p.getGitLabUserInfo(userID); err != nil {
-// 		writeAPIError(w, err)
-// 		return
-// 	} else {
-// 		githubClient = p.githubConnect(*info.Token)
-// 		username = info.GitLabUsername
-// 	}
-
-// 	result, _, err := githubClient.Search.Issues(ctx, getYourAssigneeSearchQuery(username, p.GitLabOrg), &github.SearchOptions{})
-// 	if err != nil {
-// 		mlog.Error(err.Error())
-// 	}
-
-// 	resp, _ := json.Marshal(result.Issues)
-// 	w.Write(resp)
-// }
+		results, _, err := gitlabClient.Issues.ListIssues(options, gitlab.WithContext(r.Context()))
+		return results, err
+	})
+}
 
 // func (p *Plugin) postToDo(w http.ResponseWriter, r *http.Request) {
 // 	userID := r.Header.Get("Mattermost-User-ID")

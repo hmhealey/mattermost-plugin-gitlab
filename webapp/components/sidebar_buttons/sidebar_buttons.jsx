@@ -1,25 +1,33 @@
-import React from 'react';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import React from 'react';
+
 import {makeStyleFromTheme, changeOpacity} from 'mattermost-redux/utils/theme_utils';
+
+import SidebarButton from '../sidebar_button.jsx';
 
 export default class SidebarButtons extends React.PureComponent {
     static propTypes = {
         theme: PropTypes.object.isRequired,
         gitlabURL: PropTypes.string.isRequired,
         connected: PropTypes.bool,
-        username: PropTypes.string,
-        // reviews: PropTypes.arrayOf(PropTypes.object),
+        gitlabUsername: PropTypes.string,
+        assignedIssues: PropTypes.arrayOf(PropTypes.object),
+        assignedMergeRequests: PropTypes.arrayOf(PropTypes.object),
+        createdMergeRequests: PropTypes.arrayOf(PropTypes.object),
         // unreads: PropTypes.arrayOf(PropTypes.object),
-        // yourPrs: PropTypes.arrayOf(PropTypes.object),
-        // yourAssignments: PropTypes.arrayOf(PropTypes.object),
         isTeamSidebar: PropTypes.bool,
         actions: PropTypes.shape({
-            // getReviews: PropTypes.func.isRequired,
+            getAssignedIssues: PropTypes.func.isRequired,
+            getAssignedMergeRequests: PropTypes.func.isRequired,
+            getCreatedMergeRequests: PropTypes.func.isRequired,
             // getUnreads: PropTypes.func.isRequired,
-            // getYourPrs: PropTypes.func.isRequired,
-            // getYourAssignments: PropTypes.func.isRequired,
         }).isRequired
+    };
+
+    static defaultProps = {
+        assignedIssues: [],
+        assignedMergeRequests: [],
+        createdMergeRequests: [],
     };
 
     constructor(props) {
@@ -53,10 +61,10 @@ export default class SidebarButtons extends React.PureComponent {
 
         this.setState({refreshing: true});
         await Promise.all([
-            // this.props.actions.getReviews(),
+            this.props.actions.getAssignedIssues(),
+            this.props.actions.getAssignedMergeRequests(),
+            this.props.actions.getCreatedMergeRequests(),
             // this.props.actions.getUnreads(),
-            // this.props.actions.getYourPrs(),
-            // this.props.actions.getYourAssignments(),
         ]);
         this.setState({refreshing: false});
     }
@@ -82,110 +90,74 @@ export default class SidebarButtons extends React.PureComponent {
         if (!this.props.connected) {
             if (isTeamSidebar) {
                 return (
-                    <OverlayTrigger
-                        key='gitlabConnectLink'
-                        placement={placement}
-                        overlay={<Tooltip id="reviewTooltip">Connect to your GitLab</Tooltip>}
-                    >
-                        <a
-                            href='/plugins/gitlab/oauth/connect'
-                            onClick={this.openConnectWindow}
-                            style={button}
-                        >
-                            <i className='fa fa-gitlab fa-2x'/>
-                        </a>
-                    </OverlayTrigger>
+                    <SidebarButton
+                        icon={<i className='fa fa-gitlab fa-2x'/>}
+                        href='/plugins/gitlab/oauth/connect'
+                        onClick={this.openConnectWindow}
+                        style={button}
+                        tooltipId='connectToGitLabTooltip'
+                        tooltipPlacement={placement}
+                        tooltipText='Connect to your GitLab account'
+                    />
                 )
             } else {
                 return null;
             }
         }
 
-        // const reviews = this.props.reviews || [];
-        // const yourPrs = this.props.yourPrs || [];
-        // const unreads = this.props.unreads || [];
-        // const yourAssignments = this.props.yourAssignments || [];
         const refreshClass = this.state.refreshing ? ' fa-spin' : '';
 
         return (
             <div style={container}>
-                <a
-                    key='gitlabHeader'
+                <SidebarButton
                     href={this.props.gitlabURL + '/profile/applications'}
-                    target='_blank'
+                    icon={<i className='fa fa-gitlab'/>}
                     style={button}
-                >
-                    <i className='fa fa-gitlab fa-lg'/>
-                </a>
-                {/*<OverlayTrigger
-                    key='githubYourPrsLink'
-                    placement={placement}
-                    overlay={<Tooltip id="yourPrsTooltip">Your open pull requests</Tooltip>}
-                >
-                    <a
-                        href={this.props.gitlabURL + '/pulls'}
-                        target='_blank'
-                        style={button}
-                    >
-                        <i className='fa fa-compress'/>
-                        {' ' + yourPrs.length}
-                    </a>
-                </OverlayTrigger>
-                <OverlayTrigger
-                    key='githubReviewsLink'
-                    placement={placement}
-                    overlay={<Tooltip id="reviewTooltip">Pull requests needing review</Tooltip>}
-                >
-                    <a
-                        href={this.props.gitlabURL + '/pulls/review-requested'}
-                        target='_blank'
-                        style={button}
-                    >
-                        <i className='fa fa-code-fork'/>
-                        {' ' + reviews.length}
-                    </a>
-                </OverlayTrigger>
-                <OverlayTrigger
-                    key='githubAssignmentsLink'
-                    placement={placement}
-                    overlay={<Tooltip id="reviewTooltip">Your assignments</Tooltip>}
-                >
-                    <a
-                        href={this.props.gitlabURL + '/pulls?q=is%3Aopen+archived%3Afalse+assignee%3A'+ this.props.username}
-                        target='_blank'
-                        style={button}
-                    >
-                        <i className='fa fa-list-ol'/>
-                        {' ' + yourAssignments.length}
-                    </a>
-                </OverlayTrigger>
-                <OverlayTrigger
-                    key='githubUnreadsLink'
-                    placement={placement}
-                    overlay={<Tooltip id="unreadsTooltip">Unread messages</Tooltip>}
-                >
-                    <a
-                        href={this.props.gitlabURL + '/pulls?q=is%3Aopen+mentions%3A' + this.props.username + '+archived%3Afalse'}
-                        target='_blank'
-                        style={button}
-                    >
-                        <i className='fa fa-envelope'/>
-                        {' ' + unreads.length}
-                    </a>
-                </OverlayTrigger>*/}
-                <OverlayTrigger
-                    key='gitlabRefreshButton'
-                    placement={placement}
-                    overlay={<Tooltip id="refreshTooltip">Refresh</Tooltip>}
-                >
-                    <a
-                        href='#'
-                        style={button}
-                        onClick={this.getData}
-                    >
-                        <i className={'fa fa-refresh' + refreshClass}/>
-                    </a>
-                </OverlayTrigger>
+                />
+                <SidebarButton
+                    count={this.props.createdMergeRequests.length}
+                    href={this.props.gitlabURL + '/dashboard/merge_requests?author_id=269243' /* TODO get my gitlab id and put it here */}
+                    icon={<i className='fa fa-code-fork'/>}
+                    style={button}
+                    tooltipId='createdMergeRequestsTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText='Pull requests you created'
+                />
+                <SidebarButton
+                    count={this.props.assignedMergeRequests.length}
+                    href={this.props.gitlabURL + '/dashboard/merge_requests?assignee_id=269243' /* TODO get my gitlab id and put it here */}
+                    icon={<i className='fa fa-envelope'/>}
+                    style={button}
+                    tooltipId='assignedMergeRequestsTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText="Pull requests you're assigned to"
+                />
+                <SidebarButton
+                    count={this.props.assignedIssues.length}
+                    href={this.props.gitlabURL + '/dashboard/issues?assignee_id=269243' /* TODO get my gitlab id and put it here */}
+                    icon={<i className='fa fa-sticky-note'/>}
+                    style={button}
+                    tooltipId='assignedIssuesTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText="Issues you're assigned to"
+                />
+                {/*<SidebarButton
+                    count={this.props.unreads.length}
+                    href={this.props.gitlabURL + '/pulls?q=is%3Aopen+mentions%3A' + this.props.gitlabUsername + '+archived%3Afalse'}
+                    icon={<i className='fa fa-envelope'/>}
+                    style={button}
+                    tooltipId='unreadMessagesTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText='Unread messages'
+                />*/}
+                <SidebarButton
+                    icon={<i className={'fa fa-refresh' + refreshClass}/>}
+                    onClick={this.getData}
+                    style={button}
+                    tooltipId='refreshTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText='Refresh'
+                />
             </div>
         );
     }

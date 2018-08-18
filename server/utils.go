@@ -153,3 +153,8 @@ func fixGithubNotificationSubjectURL(url string) string {
 	url = strings.Replace(url, "/pulls/", "/pull/", 1)
 	return url
 }
+
+func stringToPointer(str string) *string {
+	pointerStr := str
+	return &pointerStr
+}

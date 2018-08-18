@@ -5,27 +5,31 @@ export default class Client {
         this.url = '/plugins/gitlab/api/v1';
     }
 
-    getConnected = async (reminder = false) => {
+    getConnected = (reminder = false) => {
         return this.doGet(`${this.url}/connected?reminder=` + reminder);
     }
 
-    // getReviews = async () => {
+    // getReviews = () => {
     //     return this.doGet(`${this.url}/reviews`);
     // }
 
-    // getYourPrs = async () => {
-    //     return this.doGet(`${this.url}/yourprs`);
-    // }
+    getCreatedMergeRequests = () => {
+        return this.doGet(`${this.url}/merge_requests/created`);
+    }
 
-    // getYourAssignments = async () => {
-    //     return this.doGet(`${this.url}/yourassignments`);
-    // }
+    getAssignedMergeRequests = () => {
+        return this.doGet(`${this.url}/merge_requests/assigned`);
+    }
 
-    // getMentions = async () => {
+    getAssignedIssues = () => {
+        return this.doGet(`${this.url}/issues/assigned`);
+    }
+
+    // getMentions = () => {
     //     return this.doGet(`${this.url}/mentions`);
     // }
 
-    // getUnreads = async () => {
+    // getUnreads = () => {
     //     return this.doGet(`${this.url}/unreads`);
     // }
 

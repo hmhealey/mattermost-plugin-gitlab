@@ -7,6 +7,8 @@ function gitlabURL(state = '', action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
         return action.data.gitlab_url;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return '';
     default:
         return state;
     }
@@ -16,6 +18,8 @@ function connected(state = false, action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
         return action.data.connected;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return false;
     default:
         return state;
     }
@@ -25,6 +29,8 @@ function username(state = '', action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
         return action.data.gitlab_username;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return '';
     default:
         return state;
     }
@@ -34,6 +40,8 @@ function settings(state = {sidebar_buttons: Constants.SETTING_BUTTONS_TEAM, dail
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
         return action.data.settings;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return {};
     default:
         return state;
     }
@@ -43,33 +51,41 @@ function clientId(state = '', action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
         return action.data.gitlab_client_id;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return '';
     default:
         return state;
     }
 }
 
-function reviews(state = [], action) {
+function createdMergeRequests(state = [], action) {
     switch(action.type) {
-    case ActionTypes.RECEIVED_REVIEWS:
+    case ActionTypes.RECEIVED_CREATED_MERGE_REQUESTS:
         return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
     default:
         return state;
     }
 }
 
-function yourPrs(state = [], action) {
+function assignedMergeRequests(state = [], action) {
     switch(action.type) {
-    case ActionTypes.RECEIVED_YOUR_PRS:
+    case ActionTypes.RECEIVED_ASSIGNED_MERGE_REQUESTS:
         return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
     default:
         return state;
     }
 }
 
-function yourAssignments(state = [], action) {
+function assignedIssues(state = [], action) {
     switch(action.type) {
-    case ActionTypes.RECEIVED_YOUR_ASSIGNMENTS:
+    case ActionTypes.RECEIVED_ASSIGNED_ISSUES:
         return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
     default:
         return state;
     }
@@ -79,6 +95,8 @@ function mentions(state = [], action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_MENTIONS:
         return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
     default:
         return state;
     }
@@ -88,6 +106,8 @@ function unreads(state = [], action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_UNREADS:
         return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
     default:
         return state;
     }
@@ -99,9 +119,9 @@ export default combineReducers({
     username,
     settings,
     clientId,
-    reviews,
-    yourPrs,
-    yourAssignments,
+    createdMergeRequests,
+    assignedMergeRequests,
+    assignedIssues,
     mentions,
     unreads,
 });

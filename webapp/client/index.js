@@ -1,5 +1,5 @@
-import ClientClass from './client.js';
+import Client from './client.js';
 
-const Client = new ClientClass();
+const instance = new Client();
 
-export default Client;
+export default instance;
