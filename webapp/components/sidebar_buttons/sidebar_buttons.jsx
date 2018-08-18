@@ -15,13 +15,13 @@ export default class SidebarButtons extends React.PureComponent {
         assignedIssues: PropTypes.arrayOf(PropTypes.object),
         assignedMergeRequests: PropTypes.arrayOf(PropTypes.object),
         createdMergeRequests: PropTypes.arrayOf(PropTypes.object),
-        // unreads: PropTypes.arrayOf(PropTypes.object),
+        todos: PropTypes.arrayOf(PropTypes.object),
         isTeamSidebar: PropTypes.bool,
         actions: PropTypes.shape({
             getAssignedIssues: PropTypes.func.isRequired,
             getAssignedMergeRequests: PropTypes.func.isRequired,
             getCreatedMergeRequests: PropTypes.func.isRequired,
-            // getUnreads: PropTypes.func.isRequired,
+            getTodos: PropTypes.func.isRequired,
         }).isRequired
     };
 
@@ -141,6 +141,15 @@ export default class SidebarButtons extends React.PureComponent {
                     tooltipId='assignedIssuesTooltip'
                     tooltipPlacement={placement}
                     tooltipText="Issues you're assigned to"
+                />
+                <SidebarButton
+                    count={this.props.todos.length}
+                    href={this.props.gitlabURL + '/dashboard/todos'}
+                    icon={<i className='fa fa-check-square'/>}
+                    style={button}
+                    tooltipId='todosTooltip'
+                    tooltipPlacement={placement}
+                    tooltipText="Your pending TODOs"
                 />
                 {/*<SidebarButton
                     count={this.props.unreads.length}

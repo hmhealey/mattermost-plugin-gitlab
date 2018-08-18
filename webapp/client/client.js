@@ -25,6 +25,10 @@ export default class Client {
         return this.doGet(`${this.url}/issues/assigned`);
     }
 
+    getTodos = () => {
+        return this.doGet(`${this.url}/todos`);
+    }
+
     // getMentions = () => {
     //     return this.doGet(`${this.url}/mentions`);
     // }

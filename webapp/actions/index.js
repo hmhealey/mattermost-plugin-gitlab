@@ -49,6 +49,13 @@ export function getMentions() {
     );
 }
 
+export function getTodos() {
+    return bindClientFunc(
+        Client.getTodos,
+        ActionTypes.RECEIVED_TODOS,
+    );
+}
+
 export function getUnreads() {
     return bindClientFunc(
         Client.getUnreads,

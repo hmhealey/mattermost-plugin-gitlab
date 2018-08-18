@@ -113,6 +113,17 @@ function mentions(state = [], action) {
     }
 }
 
+function todos(state = [], action) {
+    switch(action.type) {
+        case ActionTypes.RECEIVED_TODOS:
+            return action.data;
+        case ActionTypes.RECEIVED_DISCONNECTED:
+            return [];
+        default:
+            return state;
+    }
+}
+
 function unreads(state = [], action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_UNREADS:
@@ -136,4 +147,5 @@ export default combineReducers({
     assignedIssues,
     mentions,
     unreads,
+    todos,
 });

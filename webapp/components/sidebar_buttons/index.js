@@ -5,7 +5,7 @@ import {
     getAssignedIssues,
     getAssignedMergeRequests,
     getCreatedMergeRequests,
-    getUnreads,
+    getTodos,
 } from '../../actions';
 
 import SidebarButtons from './sidebar_buttons.jsx';
@@ -19,6 +19,7 @@ function mapStateToProps(state, ownProps) {
         assignedIssues: state['plugins-gitlab'].assignedIssues,
         assignedMergeRequests: state['plugins-gitlab'].assignedMergeRequests,
         createdMergeRequests: state['plugins-gitlab'].createdMergeRequests,
+        todos: state['plugins-gitlab'].todos,
         // unreads: state['plugins-gitlab'].unreads,
     };
 }
@@ -29,7 +30,7 @@ function mapDispatchToProps(dispatch) {
             getAssignedIssues,
             getAssignedMergeRequests,
             getCreatedMergeRequests,
-            // getUnreads,
+            getTodos,
         }, dispatch)
     };
 }

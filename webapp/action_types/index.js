@@ -6,4 +6,5 @@ export default {
     RECEIVED_UNREADS: 'gitlab/received_unreads',
     RECEIVED_CONNECTED: 'gitlab/received_connected',
     RECEIVED_DISCONNECTED: 'gitlab/received_disconnected',
+    RECEIVED_TODOS: 'gitlab/received_todos',
 };

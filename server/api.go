@@ -74,6 +74,8 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 	// 	p.getUnreads(w, r)
 	// case "/api/v1/settings":
 	// 	p.updateSettings(w, r)
+	case "api/v1/todos":
+		p.getTodos(w, r)
 	default:
 		http.NotFound(w, r)
 	}
@@ -369,7 +371,7 @@ func (p *Plugin) getYourMergeRequests(w http.ResponseWriter, r *http.Request) {
 func (p *Plugin) getAssignedMergeRequests(w http.ResponseWriter, r *http.Request) {
 	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
 		options := &gitlab.ListMergeRequestsOptions{
-			State: stringToPointer("open"),
+			State: stringToPointer("pending"),
 			Scope: stringToPointer("assigned_to_me"),
 		}
 
@@ -386,6 +388,17 @@ func (p *Plugin) getAssignedIssues(w http.ResponseWriter, r *http.Request) {
 		}
 
 		results, _, err := gitlabClient.Issues.ListIssues(options, gitlab.WithContext(r.Context()))
+		return results, err
+	})
+}
+
+func (p *Plugin) getTodos(w http.ResponseWriter, r *http.Request) {
+	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
+		options := &gitlab.ListTodosOptions{
+			State: stringToPointer("pending"),
+		}
+
+		results, _, err := gitlabClient.Todos.ListTodos(options, gitlab.WithContext(r.Context()))
 		return results, err
 	})
 }
