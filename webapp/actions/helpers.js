@@ -1,4 +1,4 @@
-function bindClientFunc(clientFunc, success) {
+export function bindClientFunc(clientFunc, success) {
     return async (dispatch) => {
         let data;
         try {
