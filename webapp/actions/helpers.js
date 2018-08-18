@@ -2,7 +2,7 @@ export function bindClientFunc(clientFunc, success) {
     return async (dispatch) => {
         let data;
         try {
-            data = await clientFunc;
+            data = await clientFunc();
         } catch (error) {
             return {error};
         }
