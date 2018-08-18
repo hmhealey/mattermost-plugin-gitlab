@@ -26,3 +26,6 @@ webapp/dist
 *.swp
 
 .DS_Store
+
+# Goland files
+.idea/
