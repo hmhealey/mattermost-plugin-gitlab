@@ -16,8 +16,12 @@ export default class SidebarButton extends React.PureComponent {
 
 	render() {
 		let href = this.props.href;
+		let target = '_blank';
+		let rel = 'noopener noreferrer';
 		if (href == null && this.props.onClick) {
 			href = '#';
+			target = '';
+			rel = '';
 		}
 
 		let buttonText;
@@ -28,7 +32,8 @@ export default class SidebarButton extends React.PureComponent {
 		let button = (
 			<a
                 href={href}
-                target='_blank'
+                target={target}
+				rel={rel}
                 style={this.props.style}
             >
             	{this.props.icon}

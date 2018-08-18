@@ -65,7 +65,7 @@ export default class SidebarButtons extends React.PureComponent {
             this.props.actions.getAssignedIssues(),
             this.props.actions.getAssignedMergeRequests(),
             this.props.actions.getCreatedMergeRequests(),
-            // this.props.actions.getUnreads(),
+            this.props.actions.getTodos(),
         ]);
         this.setState({refreshing: false});
     }
