@@ -11,6 +11,7 @@ export default class SidebarButtons extends React.PureComponent {
         gitlabURL: PropTypes.string.isRequired,
         connected: PropTypes.bool,
         gitlabUsername: PropTypes.string,
+        gitlabUserId: PropTypes.number,
         assignedIssues: PropTypes.arrayOf(PropTypes.object),
         assignedMergeRequests: PropTypes.arrayOf(PropTypes.object),
         createdMergeRequests: PropTypes.arrayOf(PropTypes.object),
@@ -116,7 +117,7 @@ export default class SidebarButtons extends React.PureComponent {
                 />
                 <SidebarButton
                     count={this.props.createdMergeRequests.length}
-                    href={this.props.gitlabURL + '/dashboard/merge_requests?author_id=269243' /* TODO get my gitlab id and put it here */}
+                    href={this.props.gitlabURL + '/dashboard/merge_requests?author_id=' + this.props.gitlabUserId}
                     icon={<i className='fa fa-code-fork'/>}
                     style={button}
                     tooltipId='createdMergeRequestsTooltip'
@@ -125,7 +126,7 @@ export default class SidebarButtons extends React.PureComponent {
                 />
                 <SidebarButton
                     count={this.props.assignedMergeRequests.length}
-                    href={this.props.gitlabURL + '/dashboard/merge_requests?assignee_id=269243' /* TODO get my gitlab id and put it here */}
+                    href={this.props.gitlabURL + '/dashboard/merge_requests?assignee_id=' + this.props.gitlabUserId}
                     icon={<i className='fa fa-envelope'/>}
                     style={button}
                     tooltipId='assignedMergeRequestsTooltip'
@@ -134,7 +135,7 @@ export default class SidebarButtons extends React.PureComponent {
                 />
                 <SidebarButton
                     count={this.props.assignedIssues.length}
-                    href={this.props.gitlabURL + '/dashboard/issues?assignee_id=269243' /* TODO get my gitlab id and put it here */}
+                    href={this.props.gitlabURL + '/dashboard/issues?assignee_id=' + this.props.gitlabUserId}
                     icon={<i className='fa fa-sticky-note'/>}
                     style={button}
                     tooltipId='assignedIssuesTooltip'

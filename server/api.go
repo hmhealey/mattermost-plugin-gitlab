@@ -10,12 +10,11 @@ import (
 	// "time"
 
 	gitlab "github.com/xanzy/go-gitlab"
-	// "github.com/google/go-github/github"
+	"golang.org/x/oauth2"
+
 	"github.com/mattermost/mattermost-server/mlog"
 	"github.com/mattermost/mattermost-server/model"
 	"github.com/mattermost/mattermost-server/plugin"
-
-	"golang.org/x/oauth2"
 )
 
 const (
@@ -153,12 +152,13 @@ func (p *Plugin) completeConnectUserToGitLab(w http.ResponseWriter, r *http.Requ
 	userInfo := &GitLabUserInfo{
 		UserID:         userID,
 		Token:          tok,
+		GitLabUserId:   gitlabUser.ID,
 		GitLabUsername: gitlabUser.Username,
 		// LastToDoPostAt: model.GetMillis(),
 		Settings: &UserSettings{
-		// 	SidebarButtons: SETTING_BUTTONS_TEAM,
-		// 	DailyReminder:  true,
-		// 	Notifications:  true,
+			// 	SidebarButtons: SETTING_BUTTONS_TEAM,
+			// 	DailyReminder:  true,
+			// 	Notifications:  true,
 		},
 	}
 
@@ -206,11 +206,12 @@ func (p *Plugin) completeConnectUserToGitLab(w http.ResponseWriter, r *http.Requ
 }
 
 type ConnectedResponse struct {
-	Connected         bool          `json:"connected"`
-	GitLabURL         string        `json:"gitlab_url"`
-	GitLabUsername    string        `json:"gitlab_username"`
-	GitLabClientID    string        `json:"gitlab_client_id"`
-	Settings          *UserSettings `json:"settings"`
+	Connected      bool          `json:"connected"`
+	GitLabURL      string        `json:"gitlab_url"`
+	GitLabUsername string        `json:"gitlab_username"`
+	GitLabUserId   int           `json:"gitlab_user_id"`
+	GitLabClientID string        `json:"gitlab_client_id"`
+	Settings       *UserSettings `json:"settings"`
 }
 
 func (p *Plugin) getConnected(w http.ResponseWriter, r *http.Request) {
@@ -226,6 +227,7 @@ func (p *Plugin) getConnected(w http.ResponseWriter, r *http.Request) {
 	if info != nil && info.Token != nil {
 		resp.Connected = true
 		resp.GitLabUsername = info.GitLabUsername
+		resp.GitLabUserId = info.GitLabUserId
 		resp.GitLabClientID = p.GitLabOAuthClientID
 		resp.Settings = info.Settings
 

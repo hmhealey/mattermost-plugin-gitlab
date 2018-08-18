@@ -36,6 +36,17 @@ function username(state = '', action) {
     }
 }
 
+function userId(state = '', action) {
+    switch(action.type) {
+    case ActionTypes.RECEIVED_CONNECTED:
+        return action.data.gitlab_user_id;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return '';
+    default:
+        return state;
+    }
+}
+
 function settings(state = {sidebar_buttons: Constants.SETTING_BUTTONS_TEAM, daily_reminder: true, notifications: true}, action) {
     switch(action.type) {
     case ActionTypes.RECEIVED_CONNECTED:
@@ -117,6 +128,7 @@ export default combineReducers({
     gitlabURL,
     connected,
     username,
+    userId,
     settings,
     clientId,
     createdMergeRequests,

@@ -118,6 +118,7 @@ func (p *Plugin) getOAuthConfig() *oauth2.Config {
 type GitLabUserInfo struct {
 	UserID         string
 	Token          *oauth2.Token
+	GitLabUserId   int
 	GitLabUsername string
 	// LastToDoPostAt int64
 	Settings       *UserSettings

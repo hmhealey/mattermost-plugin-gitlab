@@ -15,6 +15,7 @@ function mapStateToProps(state, ownProps) {
         connected: state['plugins-gitlab'].connected,
         gitlabURL: state['plugins-gitlab'].gitlabURL,
         gitlabUsername: state['plugins-gitlab'].username,
+        gitlabUserId: state['plugins-gitlab'].userId,
         assignedIssues: state['plugins-gitlab'].assignedIssues,
         assignedMergeRequests: state['plugins-gitlab'].assignedMergeRequests,
         createdMergeRequests: state['plugins-gitlab'].createdMergeRequests,
