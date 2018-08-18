@@ -21,7 +21,7 @@ export default class SidebarButton extends React.PureComponent {
 		}
 
 		let buttonText;
-		if (this.props.count) {
+		if (this.props.count != null) {
 			buttonText = ' ' + this.props.count;
 		}
 
