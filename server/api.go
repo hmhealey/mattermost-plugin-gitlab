@@ -74,7 +74,7 @@ func (p *Plugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Req
 	// 	p.getUnreads(w, r)
 	// case "/api/v1/settings":
 	// 	p.updateSettings(w, r)
-	case "api/v1/todos":
+	case "/api/v1/todos":
 		p.getTodos(w, r)
 	default:
 		http.NotFound(w, r)
