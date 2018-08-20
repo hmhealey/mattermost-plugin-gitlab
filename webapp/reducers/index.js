@@ -115,12 +115,12 @@ function mentions(state = [], action) {
 
 function todos(state = [], action) {
     switch(action.type) {
-        case ActionTypes.RECEIVED_TODOS:
-            return action.data;
-        case ActionTypes.RECEIVED_DISCONNECTED:
-            return [];
-        default:
-            return state;
+    case ActionTypes.RECEIVED_TODOS:
+        return action.data;
+    case ActionTypes.RECEIVED_DISCONNECTED:
+        return [];
+    default:
+        return state;
     }
 }
 
