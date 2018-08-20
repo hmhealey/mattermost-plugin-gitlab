@@ -32,6 +32,7 @@ export default class SidebarButton extends React.PureComponent {
 		let button = (
 			<a
                 href={href}
+                onClick={this.props.onClick}
                 target={target}
 				rel={rel}
                 style={this.props.style}
