@@ -183,7 +183,9 @@ func (p *Plugin) completeConnectUserToGitLab(w http.ResponseWriter, r *http.Requ
 		WS_EVENT_CONNECT,
 		map[string]interface{}{
 			"connected":        true,
+			"gitlab_url":       p.GitLabURL,
 			"gitlab_username":  userInfo.GitLabUsername,
+			"gitlab_user_id":   userInfo.GitLabUserId,
 			"gitlab_client_id": p.GitLabOAuthClientID,
 		},
 		&model.WebsocketBroadcast{UserId: userID},
