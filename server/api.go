@@ -361,7 +361,7 @@ func (p *Plugin) getFromGitLab(
 func (p *Plugin) getYourMergeRequests(w http.ResponseWriter, r *http.Request) {
 	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
 		options := &gitlab.ListMergeRequestsOptions{
-			State: stringToPointer("open"),
+			State: stringToPointer("opened"),
 			Scope: stringToPointer("created_by_me"),
 		}
 
@@ -373,7 +373,7 @@ func (p *Plugin) getYourMergeRequests(w http.ResponseWriter, r *http.Request) {
 func (p *Plugin) getAssignedMergeRequests(w http.ResponseWriter, r *http.Request) {
 	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
 		options := &gitlab.ListMergeRequestsOptions{
-			State: stringToPointer("pending"),
+			State: stringToPointer("opened"),
 			Scope: stringToPointer("assigned_to_me"),
 		}
 
@@ -385,7 +385,7 @@ func (p *Plugin) getAssignedMergeRequests(w http.ResponseWriter, r *http.Request
 func (p *Plugin) getAssignedIssues(w http.ResponseWriter, r *http.Request) {
 	p.getFromGitLab(w, r, func(gitlabClient *gitlab.Client) (interface{}, error) {
 		options := &gitlab.ListIssuesOptions{
-			State: stringToPointer("open"),
+			State: stringToPointer("opened"),
 			Scope: stringToPointer("assigned_to_me"),
 		}
 
