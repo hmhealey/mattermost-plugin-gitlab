@@ -45,9 +45,8 @@ export default class SidebarButton extends React.PureComponent {
         if (this.props.tooltipText) {
         	button = (
                 <OverlayTrigger
-	                id={this.props.tooltipId}
                     placement={this.props.tooltipPlacement}
-                    overlay={<Tooltip>{this.props.tooltipText}</Tooltip>}
+                    overlay={<Tooltip id={this.props.tooltipId}>{this.props.tooltipText}</Tooltip>}
                 >
                 	{button}
                 </OverlayTrigger>
